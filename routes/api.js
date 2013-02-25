@@ -6,7 +6,7 @@ var passport = require('passport');
  */
 
 exports.index = function(req, res){
-  res.send("api index");
+  res.send("api index !!!");
 };
 
 exports.login = function(req, res, next){
