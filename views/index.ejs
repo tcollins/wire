@@ -1,13 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style type="text/css">
+      body {
+        padding: 0px 0px 20px 0px;        
+      }
+      .xxsidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+
+    
   </head>
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <br>
-    <p>More text</p>
+
+    <div class="container-fluid">
+
+    	<div class="row-fluid">
+    		<div class="span8">
+    			<h1>Wire</h1>
+    		</div>	
+        	<div class="span4">
+				<div class="pull-right btn-group" style="margin: 20px 0 0;">
+					<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+						<i class="icon-user icon-white"></i> tcollins
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#"><i class="icon-pencil"></i> Profile</a></li>
+						<li><a href="#"><i class="icon-lock"></i> Change password</a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="icon-off"></i> Sign out</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="row-fluid">
+        	<div class="span2">
+		        <div style="padding: 8px 0;" class="well">
+					<ul class="nav nav-list">				
+						<li>
+							<a href="index.htm"><i class="icon-home"></i> Home</a>
+						</li>		  							
+						<li>
+							<a href="tasks.htm"><i class="icon-check"></i> Tasks</a>
+						</li>
+						<li>
+							<a href="messages.htm"><i class="icon-envelope"></i> Messages</a>
+						</li>
+						<li>
+							<a href="files.htm"><i class="icon-file"></i> Files</a>
+						</li>
+						<li>
+							<a href="activity.htm"><i class="icon-list-alt"></i> Activity</a>
+						</li>					  							
+					</ul>
+				</div>
+			</div><!--/span-->
+
+			<div class="span10">
+    			<ul class="nav nav-tabs">
+					<li class="active"><a href="#"><i class="icon-globe"></i> All</a></li>
+					<li><a href="#"><i class="icon-signal"></i> Discussions</a></li>
+					<li><a href="#"><i class="icon-file"></i> Files</a></li>
+    			</ul>
+    			<ul class="wire-list">
+    				<li class="wire-list-item" style="border-bottom: 1px solid #ccc;">
+    					<img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=50">
+    					<div class="muted" style="">about 20 mins ago</div>
+    				</li>
+    				<li class="wire-list-item" style="border-bottom: 1px solid #ccc; height: 250px;">
+    					<img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=50">
+    					<div class="muted" style="">about 20 mins ago</div>
+    				</li>
+    				<li class="wire-list-item" style="border-bottom: 1px solid #ccc; height: 250px;">
+    					<img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=50">
+    					<div class="muted" style="">about 20 mins ago</div>
+    				</li>
+    			</ul>	
+			</div><!--/span-->
+		</div><!--/row-->
+
+		<div style="background: #ccc; position: fixed; bottom: 0px; width:100%;">
+			<input type="text">	
+		</div>
+
+
+    </div><!--/.fluid-container-->
+
+    
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.js"></script>
+
+
   </body>
 </html>
