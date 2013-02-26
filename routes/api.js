@@ -41,11 +41,27 @@ exports.login = function(req, res, next){
 
 };
 
+
+exports.notfound = function(req, res){
+	var json = {};
+	json.error = 404;
+	json.message = 'Invalid API URL';    
+	res.send(json.error, json);
+};
+
 exports.notauthorized = function(req, res){
 	var json = {};
 	json.error = 401;
 	json.message = 'Not Authorized';    
-	res.send(json);
+	res.send(json.error, json);
+};
+
+exports.errorHandler = function(err, req, res, next){
+	var json = {};
+	json.error = 500;
+	json.message = 'An unknown error occurrec'; 
+	json.details = err;   
+	res.send(json.error, json);
 };
 
 exports.failedlogin = function(req, res){

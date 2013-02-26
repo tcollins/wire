@@ -2,10 +2,13 @@
 /**
  * Module dependencies.
  */
+//process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'production';
 
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , pages = require('./routes/pages')
   , api = require('./routes/api')
   , http = require('http')
   , path = require('path');
@@ -21,17 +24,21 @@ app.configure(function(){
   app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
+  //app.use(express.logger());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(passport.initialize());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
+  app.use('/api', api.notfound);
+  app.use(pages.notfound);
+  app.use('/api', api.errorHandler);
+  // TODO add a catch all error handler for production
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
+app.configure('development', function(){	
+	app.use(express.errorHandler());
 });
-
 
 
 passport.use(new LocalStrategy(
@@ -67,7 +74,7 @@ var testFilter = function(req, res, next){
 	}
 };
 
-app.get('/', routes.index);
+app.get('/', pages.index);
 app.get('/users', user.list);
 app.get('/api', api.index);
 app.get('/api/login', api.login);
@@ -76,5 +83,5 @@ app.get('/api/failedlogin', api.failedlogin);
 
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+  console.log("Express server listening on port " + app.get('port') + " - " + process.env.NODE_ENV);
 });
