@@ -4,6 +4,13 @@
  */
 
 exports.index = function(req, res){
+	
+	console.log('pages:index');
+	console.log('req.user');
+	console.log(req.user);
+
+
+
 	res.render('index', { title: 'Wire' });
 };
 

@@ -2,19 +2,23 @@
 /**
  * Module dependencies.
  */
-//process.env.NODE_ENV = 'development';
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'development';
+//process.env.NODE_ENV = 'production';
 
-var express = require('express')
-  , routes = require('./routes')
+var config = require('./config');
+
+//console.log(config);
+
+var express = require('express')  
   , user = require('./routes/user')
   , pages = require('./routes/pages')
   , api = require('./routes/api')
+  , auth = require('./services/auth')
   , http = require('http')
   , path = require('path');
 
 var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
+  , TwitterStrategy = require('passport-twitter').Strategy;
 
 var app = express();
 
@@ -24,10 +28,13 @@ app.configure(function(){
   app.set('view engine', 'ejs');
   app.use(express.favicon());
   app.use(express.logger('dev'));
-  //app.use(express.logger());
+  app.use(express.cookieParser());
+  app.use(express.cookieSession({ secret: 'blackbeermmm!', cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  //app.use(express.session({ secret: 'blackbeermmm' }));
   app.use(passport.initialize());
+  app.use(passport.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
   app.use('/api', api.notfound);
@@ -36,43 +43,14 @@ app.configure(function(){
   // TODO add a catch all error handler for production
 });
 
+
 app.configure('development', function(){	
 	app.use(express.errorHandler());
 });
 
+// initialize authentication
+auth.initialize();
 
-passport.use(new LocalStrategy(
-	function(username, password, done) {
-		//User.findOne({ username: username, password: password }, function (err, user) {
-		//	done(err, user);
-		//});
-		console.log('my LocalStrategy');
-		console.log(username + " / " + password);
-
-		var user = {name: 'Timmy C'};
-
-		done(null, user);
-	}
-));
-
-
-
-
-
-var testFilter = function(req, res, next){
-	console.log('testFilter');	
-	var allowed = true;
-
-	if(allowed){
-		next();
-	}	
-	else{
-		//next('route');			
-		//res.send({error: 'You are not authenticated'});
-		res.redirect('/api/notauthorized');
-		
-	}
-};
 
 app.get('/', pages.index);
 app.get('/users', user.list);
@@ -80,6 +58,19 @@ app.get('/api', api.index);
 app.get('/api/login', api.login);
 app.get('/api/notauthorized', api.notauthorized);
 app.get('/api/failedlogin', api.failedlogin);
+
+// Redirect the user to Twitter for authentication.  When complete, Twitter
+// will redirect the user back to the application at
+//   /auth/twitter/callback
+app.get('/auth/twitter', passport.authenticate('twitter', { session: false }));
+
+// Twitter will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/twitter/callback', 
+  passport.authenticate('twitter', { successRedirect: '/',
+                                     failureRedirect: '/login' }));
 
 
 http.createServer(app).listen(app.get('port'), function(){
