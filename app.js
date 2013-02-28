@@ -55,6 +55,7 @@ auth.initialize();
 app.get('/', pages.index);
 app.get('/users', user.list);
 app.get('/api', api.index);
+app.get('/api/test', api.test);
 app.get('/api/login', api.login);
 app.get('/api/notauthorized', api.notauthorized);
 app.get('/api/failedlogin', api.failedlogin);

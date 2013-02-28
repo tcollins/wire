@@ -1,12 +1,50 @@
 
 var passport = require('passport');
+var models = require('../models/models');
+
+var mongoose = require('mongoose');
+mongoose.connect('localhost', 'wire');
+//mongoose.connection.on('error', handleError);
+
+
 
 /*
  * GET api index.
  */
 
 exports.index = function(req, res){
-  res.send("api index !!!");
+  
+
+  var User = models.User();
+  var user = new User();
+  user.name = "Frank";
+  user.username = "frank999";
+  user.email = "test@aol.com";
+
+  user.save(function(err){
+  	if(err){
+  		console.log("Error in save");
+  		console.log(err);
+  		res.send("Error in save");
+  	}else{
+  		console.log("User Saved");
+  		res.send("User Saved");
+  	}
+  });
+
+
+};
+
+exports.test = function(req, res){
+
+	
+
+	var User = models.User();
+	User.findByUserName('frank999', function(err, users){
+		console.log(users);
+		res.send(users);
+	});
+
 };
 
 exports.login = function(req, res, next){
