@@ -10,7 +10,7 @@
     <!-- Le styles -->
     <link href="/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/css/style.css' />
     <style type="text/css">
       body {
         padding: 0px 0px 20px 0px;        
@@ -76,13 +76,55 @@
 					<li><a href="#"><i class="icon-signal"></i> Discussions</a></li>
 					<li><a href="#"><i class="icon-file"></i> Files</a></li>
     			</ul>
+
+                <!--    
+                <h2>Your seat reservations (<span data-bind="text: seats().length"></span>)</h2>
+                <table>
+                    <thead><tr>
+                        <th>Passenger name</th><th>Meal</th><th>Surcharge</th><th></th>
+                    </tr></thead>
+                    <tbody data-bind="foreach: seats">
+                       <tr>
+                            <td><input data-bind="value: name" /></td>
+                            <td><select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select></td>
+                            <td data-bind="text: formattedPrice"></td>
+                            <td><a href="#" data-bind="click: $root.removeSeat">Remove</a></td>
+                        </tr>    
+                    </tbody>
+                </table>
+
+                <h3 data-bind="visible: totalSurcharge() > 0">
+                    Total surcharge: $<span data-bind="text: totalSurcharge().toFixed(2)"></span>
+                </h3>
+
+                <button data-bind="click: addSeat">Reserve another seat</button>
+
+                <button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button>
+                <br><br>
+                -->
+
+                <input type="text" data-bind="value:message, returnKey:sendMessage, hasfocus: isChating"/>
+                <button data-bind="click:sendMessage">Send</button>
+
+                <ul class="wire-list" data-bind="foreach: messages">
+                    <li class="wire-list-item" style="border-bottom: 1px solid #ccc;">
+                        <img data-bind="attr: { src: user.avatarUrl, title: user.username }">
+                        <div class="muted" style="">about 20 mins ago</div>
+                        <div class="wire-list" data-bind="foreach: bodylines">
+                            <p data-bind="text: $data"></p>       
+                        </div>
+                    </li>
+                </ul>        
+
+                <hr>    
+
     			<ul class="wire-list">
     				<li class="wire-list-item" style="border-bottom: 1px solid #ccc;">
     					<img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=50">
     					<div class="muted" style="">about 20 mins ago</div>
     				</li>
     				<li class="wire-list-item" style="border-bottom: 1px solid #ccc; height: 250px;">
-    					<img src="http://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=50">
+    					<img src="http://www.gravatar.com/avatar/58c494b702013c0dcb228915e14edeac?s=50">
     					<div class="muted" style="">about 20 mins ago</div>
     				</li>
     				<li class="wire-list-item" style="border-bottom: 1px solid #ccc; height: 250px;">
@@ -104,6 +146,11 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="/bootstrap/js/bootstrap.js"></script>
+    <script src="/js/knockout-2.2.1.js"></script>
+    <script src="/js/wire.js"></script>
+    <script>
+        WIRE.setup();
+    </script>
 
 
   </body>
