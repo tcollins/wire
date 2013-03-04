@@ -53,6 +53,7 @@ auth.initialize();
 
 
 app.get('/', pages.index);
+app.get('/wire', pages.wire);
 app.get('/users', user.list);
 app.get('/api', api.index);
 app.get('/api/test', api.test);

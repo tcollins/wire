@@ -1,3 +1,2 @@
-body {
-  padding: 0px; 
-}
+body					{padding: 0px;}
+a, a:focus, .btn:focus	{outline: none;}

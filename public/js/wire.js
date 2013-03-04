@@ -54,11 +54,19 @@ WIRE.HomeViewModel =	function(){
 							self.message = ko.observable(""),	    // the text of inputted message
 							self.messages = ko.observableArray([]);	// list of all the messages
 							self.isChating = ko.observable(false);	// used to control input focus
+							self.currentTab = ko.observable('messages'); // used to control active tab
+
+							self.isMessagesTab = ko.computed(function() {
+								return self.currentTab() === 'messages';	       
+							});	
+							self.isTeamTab = ko.computed(function() {
+								return self.currentTab() === 'team';	       
+							});	
 
 							self.addMessage = function(message) {
 	        					// adds message to the front of the list
 	        					self.messages.unshift(message);
-	    					}
+	    					};
 
 	    					self.sendMessage = function(){	    						
 	    						console.log(self.message());
@@ -82,10 +90,45 @@ WIRE.HomeViewModel =	function(){
 	    						// clear message input and keep focus on input
 	    						self.message("");
 	    						self.isChating(true);
-	    					}	
+	    					};	
+
+	    						//self.goToFolder = function(folder) { location.hash = folder };
+    							//self.goToMail = function(mail) { location.hash = mail.folder + '/' + mail.id };
+
+
+	    					//self.goToMessagesTab = function(){
+	    						////self.currentTab('messages');
+	    						//location.hash = 'tcollins-technology';	
+	    					//};	
+
+	    					//self.goToTeamTab = function(){
+	    						////self.currentTab('team');
+	    						//location.hash = 'tcollins-technology/team';
+	    					//};	
 
 	    					self.addMessage(new WIRE.Message(new WIRE.User(1,'frank999','205e460b479e2e5b48aec07710c08d50'), 'This is the message body'));
 	    					self.addMessage(new WIRE.Message(new WIRE.User(2,'timmyc8m','58c494b702013c0dcb228915e14edeac'), 'Some awesome comments'));
+
+	    					// Client-side routes    
+						    Sammy(function() {
+						        this.get('/wire#:wireslug', function() {
+						            //self.chosenFolderId(this.params.folder);
+						            console.log('messages');
+						            console.log(this.params);
+						            self.currentTab('messages');
+						        });
+						        this.get('/wire#:wireslug/team', function() {
+						            //self.chosenFolderId(this.params.folder);
+						            console.log('team');
+						            console.log(this.params);
+						            self.currentTab('team');
+						        });
+						        this.notFound = function(){
+						        	console.log('NOT FOUND');
+						        }
+						        
+						    }).run(); 	
+
 
 						},
 
