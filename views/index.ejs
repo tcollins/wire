@@ -1,22 +1,32 @@
 <% include _header %>
 
-<style>
-    body                {background: #eee;}
-    .homebox            {margin: 100px auto; width: 340px;}
-    .homebox .inner     {height: 200px; background: #fff; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; border-left: 1px solid #ddd;}
-</style>
+<img class="full-bg" src="images/full-bg.png">
 
 <div class="homebox">
     <ul class="nav nav-tabs" style="margin: 0px;">
-        <li class="active"><a href="/">Sign up</a></li>
-        <li><a href="login">Log in</a></li>
+        <% if(tab == "login") { %>
+            <li><a href="/" style="background: #eee;"><i class="icon-star"></i> Sign up</a></li>
+            <li class="active"><a href="login"><i class="icon-signin"></i> Log in</a></li>
+        <% } else { %>
+            <li class="active"><a href="/"><i class="icon-star"></i> Sign up</a></li>
+            <li><a href="login" style="background: #eee;"><i class="icon-signin"></i> Log in</a></li>
+        <% } %>
     </ul> 
     <div class="inner">
-        <h2 class="text-center" style="margin: 0px; line-height: 70px;">Sign Up for free</h2>
-        <p class="text-center" style="padding: 0px 30px;">
-            No need to remember another password, instead Wire uses twitter for authentication.
-        </p>    
-        <a href="" class="btn btn-primary btn-large" style="display: block; margin: 20px auto; width: 200px;">Sign up with Twitter</a>        
+        <% if(tab == "login") { %>
+            <h1 class="text-center" style="margin: 0px; line-height: 114px; font-size:46px;">Log in now</h1>
+            <a href="/auth/twitter" class="btn btn-primary btn-large" style="display: block; margin: 40px auto 0px; width: 200px;">
+                <i class="icon-twitter"></i>&nbsp; Log in with Twitter
+            </a>
+        <% } else { %>
+            <h1 class="text-center" style="margin: 0px; line-height: 114px; font-size:46px;">Sign up for free</h1>
+            <p class="text-center" style="padding: 0px 50px; font-size:20px; line-height:28px;">
+                No need to remember another password, instead Wire uses Twitter for authentication.
+            </p>    
+            <a href="/auth/twitter" class="btn btn-primary btn-large" style="display: block; margin: 40px auto 0px; width: 200px;">
+                <i class="icon-twitter"></i>&nbsp; Sign up with Twitter
+            </a>
+        <% } %>    
     </div>
 </div> 
 

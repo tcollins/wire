@@ -1,5 +1,7 @@
 var config = {}
 
+	config.title = "Wire";
+
 if(process.env.NODE_ENV === 'production'){
 	//==================================================
 	//== PRODUCTION

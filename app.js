@@ -9,8 +9,7 @@ var config = require('./config');
 
 //console.log(config);
 
-var express = require('express')  
-  , user = require('./routes/user')
+var express = require('express')    
   , pages = require('./routes/pages')
   , api = require('./routes/api')
   , auth = require('./services/auth')
@@ -53,8 +52,12 @@ auth.initialize();
 
 
 app.get('/', pages.index);
+app.get('/login', pages.login);
+app.get('/login-success', pages.loginSuccess);
+app.get('/login-failed', pages.loginFailed);
+app.get('/login', pages.login);
 app.get('/wire', pages.wire);
-app.get('/users', user.list);
+
 app.get('/api', api.index);
 app.get('/api/test', api.test);
 app.get('/api/login', api.login);
@@ -71,8 +74,8 @@ app.get('/auth/twitter', passport.authenticate('twitter', { session: false }));
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 app.get('/auth/twitter/callback', 
-  passport.authenticate('twitter', { successRedirect: '/',
-                                     failureRedirect: '/login' }));
+  passport.authenticate('twitter', { successRedirect: '/login-success',
+                                     failureRedirect: '/login-failed' }));
 
 
 http.createServer(app).listen(app.get('port'), function(){

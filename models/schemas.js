@@ -3,15 +3,26 @@ var mongoose = require('mongoose');
 
 var SchemaTypes = mongoose.Schema.Types;
 
+// AuthProviderSchema is a Sub-doc of the the UserSchema
+var AuthProviderSchema = mongoose.Schema({});
 var UserSchema = mongoose.Schema({});
 var WireSchema = mongoose.Schema({});
 var MessageSchema = mongoose.Schema({});
 
 
+AuthProviderSchema.add({
+	providername   	: {type : String},
+	username        : {type : String, required: true},
+	displayname    	: {type : String},
+	location		: {type : String},
+	url				: {type : String}
+});
+
 UserSchema.add({
 	name          	: {type : String},
 	username        : {type : String, required: true},
 	email          	: {type : String},
+	providers		: [AuthProviderSchema],
 	wires			: [{ type: SchemaTypes.ObjectId, ref: 'Wire' }]
 });
 

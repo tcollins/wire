@@ -4,6 +4,7 @@ var config = require('../config');
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy;
 
+var models = require('../models/models');
 
 /**
 * This gets called after the user has been successfully logged in.
@@ -18,22 +19,46 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
       });
       */
 
-  var user = {};
-  user.token = token;
-  user.tokenSecret = tokenSecret;
-  user.provider = profile.provider;
-  user.displayName = profile.displayName;
-  user.username = profile.username;
-  user.oauthId = profile._json.id_str;
-  user.location = profile._json.location;
-  user.url = profile._json.url;
+//post.children.push({ name: 'Liesl' });
+
+// user.providers.push
 
   // TODO we should probably persist the user here
 
   console.log('in twitter strategy callback');
+
+  var provider = {};
+  provider.providername = profile.provider;  
+  provider.username = profile.username;
+  provider.displayname = profile.displayName;
+  provider.location = profile._json.location;
+  provider.url = profile._json.url;
+
+  var User = models.User();
+  var user = new User();
+  user.name = provider.displayname;
+  user.username = provider.username;
+  user.email = "";
+  user.providers.push(provider);
+
+  console.log(user);
+
+  user.save(function(err){
+    if(err){
+      console.log("Error in save");
+      console.log(err);      
+      return done(err);
+    }else{
+      console.log("User Saved");      
+      return done(null, user);
+    }
+  });
+
+
+  
   //console.log(user);
 
-  return done(null, user);
+  //return done(null, user);
 }
 
 
