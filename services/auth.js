@@ -33,8 +33,76 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
   provider.displayname = profile.displayName;
   provider.location = profile._json.location;
   provider.url = profile._json.url;
+  
 
   var User = models.User();
+
+  User.findByProviderUserName(provider.providername, provider.username, function(err, users){
+    if(err){
+      console.log("Error in save");
+      console.log(err);      
+      return done(err);
+
+    }else{
+
+      console.log('---------- users -------------');
+      
+      var user;
+
+      if(users.length > 0){
+
+        console.log('-- populating existing');
+
+        // user exists, so populate it
+        user = new User(users[0]);
+
+        // no need to save, maybe we would update something like a last logged in timestamp
+        // but for now...
+        return done(null, user);
+
+        // add this provider if first time for the user
+        //if(!user.containsProvider(provider.providername)){
+        //  console.log('-- adding new provider to existing');
+        //  user.providers.push(provider);
+        //}
+
+      }else{
+        // new user, so create it
+        console.log('-- creating new user');
+        user = new User();
+        user.name = provider.displayname;
+        user.username = provider.username;
+        user.email = "";
+        user.providers.push(provider);
+
+        // save the user
+        user.save(function(err){
+          if(err){
+            console.log("Error in save");
+            console.log(err);      
+            return done(err);
+          }else{
+            console.log("User Saved");      
+            return done(null, user);
+          }
+        });
+
+      }
+
+      
+      
+
+    }
+  });
+
+/*
+  var provider = {};
+  provider.providername = profile.provider;  
+  provider.username = profile.username;
+  provider.displayname = profile.displayName;
+  provider.location = profile._json.location;
+  provider.url = profile._json.url;
+
   var user = new User();
   user.name = provider.displayname;
   user.username = provider.username;
@@ -54,7 +122,7 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
     }
   });
 
-
+*/
   
   //console.log(user);
 
