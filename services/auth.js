@@ -4,7 +4,9 @@ var config = require('../config');
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy;
 
-var models = require('../models/models');
+var User = require('../models/user');
+
+
 
 /**
 * This gets called after the user has been successfully logged in.
@@ -35,7 +37,7 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
   provider.url = profile._json.url;
   
 
-  var User = models.User();
+  //var User = models.User();
 
   User.findByProviderUserName(provider.providername, provider.username, function(err, users){
     if(err){

@@ -1,11 +1,6 @@
 
 var passport = require('passport');
-var models = require('../models/models');
-
-var mongoose = require('mongoose');
-mongoose.connect('localhost', 'wire');
-//mongoose.connection.on('error', handleError);
-
+var User = require('../models/user');
 
 
 /*
@@ -14,8 +9,6 @@ mongoose.connect('localhost', 'wire');
 
 exports.index = function(req, res){
   
-
-  var User = models.User();
   var user = new User();
   user.name = "Frank";
   user.username = "frank999";
@@ -36,10 +29,7 @@ exports.index = function(req, res){
 };
 
 exports.test = function(req, res){
-
 	
-
-	var User = models.User();
 	User.findByUserName('frank999', function(err, users){
 		console.log(users);
 		res.send(users);

@@ -1,6 +1,8 @@
 
 var mongoose = require('mongoose');
 
+mongoose.connect('localhost', 'wire');
+
 var SchemaTypes = mongoose.Schema.Types;
 
 // AuthProviderSchema is a Sub-doc of the the UserSchema
@@ -8,6 +10,7 @@ var AuthProviderSchema = mongoose.Schema({});
 var UserSchema = mongoose.Schema({});
 var WireSchema = mongoose.Schema({});
 var MessageSchema = mongoose.Schema({});
+var TokenSchema = mongoose.Schema({});
 
 
 AuthProviderSchema.add({
@@ -48,8 +51,15 @@ MessageSchema.add({
 });
 
 
+TokenSchema.add({
+	key          	: {type : String},
+	user			: { type: SchemaTypes.ObjectId, ref: 'User' },
+	created			: {type: Date, default: Date.now}	
+});
+
 module.exports = {
 	UserSchema		: UserSchema,
 	WireSchema		: WireSchema,
-	MessageSchema	: MessageSchema
+	MessageSchema	: MessageSchema,
+	TokenSchema		: TokenSchema
 };
