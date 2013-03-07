@@ -4,7 +4,9 @@ var config = require('../config');
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy;
 
+// Models
 var User = require('../models/user');
+var Token = require('../models/token');
 
 
 
@@ -14,18 +16,6 @@ var User = require('../models/user');
 * 
 */
 function setupUserAfterLogin(token, tokenSecret, profile, done){
-      /*
-      User.findOrCreate(..., function(err, user) {
-        if (err) { return done(err); }
-        done(null, user);
-      });
-      */
-
-//post.children.push({ name: 'Liesl' });
-
-// user.providers.push
-
-  // TODO we should probably persist the user here
 
   console.log('in twitter strategy callback');
 
@@ -35,9 +25,15 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
   provider.displayname = profile.displayName;
   provider.location = profile._json.location;
   provider.url = profile._json.url;
-  
 
-  //var User = models.User();
+  var finalReturnCallback = function(err, user, done){
+    console.log("inside finalReturnCallback");
+    if(err){          
+      return done(err);
+    }else{
+      return done(null, user);
+    }
+  };
 
   User.findByProviderUserName(provider.providername, provider.username, function(err, users){
     if(err){
@@ -48,7 +44,7 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
     }else{
 
       console.log('---------- users -------------');
-      
+
       var user;
 
       if(users.length > 0){
@@ -58,15 +54,11 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
         // user exists, so populate it
         user = new User(users[0]);
 
-        // no need to save, maybe we would update something like a last logged in timestamp
-        // but for now...
-        return done(null, user);
+        
+        Token.generateTokenAndSave(user.id, function(err){
+          return finalReturnCallback(err, user, done);
+        });
 
-        // add this provider if first time for the user
-        //if(!user.containsProvider(provider.providername)){
-        //  console.log('-- adding new provider to existing');
-        //  user.providers.push(provider);
-        //}
 
       }else{
         // new user, so create it
@@ -79,13 +71,16 @@ function setupUserAfterLogin(token, tokenSecret, profile, done){
 
         // save the user
         user.save(function(err){
-          if(err){
-            console.log("Error in save");
-            console.log(err);      
+          if(err){              
             return done(err);
           }else{
-            console.log("User Saved");      
-            return done(null, user);
+            console.log("User Saved");  
+            console.log(user.id); 
+             
+            Token.generateTokenAndSave(user.id, function(err){
+              console.log("inside generateTokenKey callback");
+              return finalReturnCallback(err, user, done);
+            });
           }
         });
 
@@ -137,7 +132,7 @@ exports.initialize = function(){
 
   passport.serializeUser(function(user, done) {    
     //console.log('passport.serializeUser');    
-    done(null, user.username);
+    done(null, user.id);
   });
 
   passport.deserializeUser(function(obj, done) {
