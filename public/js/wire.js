@@ -36,7 +36,7 @@ WIRE.User =				function(id, username, hash){
 
 							self.avatarUrl = ko.computed(function() {
 								var md5 = self.hash();
-								return 'http://www.gravatar.com/avatar/'+md5+'?s=50';        
+								return 'http://www.gravatar.com/avatar/'+md5+'?s=40';        
 							});
 
 						};

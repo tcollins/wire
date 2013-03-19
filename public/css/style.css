@@ -12,3 +12,11 @@ img.full-bg			{/* Set rules to fill background */ min-height: 100%; min-width: 8
 @media screen and (max-width: 800px) { /* Specific to this particular image */
   img.full-bg		{left: 50%; margin-left: -400px;   /* 50% */ }
 }
+
+
+.wire-list 				{margin: 0px;}
+.wire-list-item			{list-style: none; border-bottom: 1px solid #ccc; min-height: 40px; padding: 10px 0px;}
+.wire-avatar			{float:left;}
+.wire-time				{float: right;}
+.wire-body-lines		{margin: 0px 0px 0px 70px;}
+.wire-body-lines p		{margin: 0px;}

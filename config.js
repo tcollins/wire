@@ -12,10 +12,9 @@ if(process.env.NODE_ENV === 'production'){
 	    callbackURL: "not-ready-yet"
 	};
 
-	config.mongoUrl = 'mongodb://localhost/wire';
-	//config.mongoUrl = 'mongodb://username:password@host:port/database?options...';
+	config.mongoUrl = 'mongodb://localhost/wire';   //config.mongoUrl = 'mongodb://username:password@host:port/database?options...';
 	config.mongoStoreConfig = {url: config.mongoUrl};
-	
+	config.port = 3000;
 
 }else{
 	//==================================================
@@ -29,7 +28,7 @@ if(process.env.NODE_ENV === 'production'){
 
 	config.mongoUrl = 'mongodb://localhost/wire';
 	config.mongoStoreConfig = {url: config.mongoUrl};
-
+	config.port = 3000;
 	
 }
 

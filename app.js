@@ -14,6 +14,7 @@ var express = require('express')
   , api = require('./routes/api')
   , auth = require('./services/auth')
   , http = require('http')
+  , socketio = require('socket.io')
   , path = require('path');
 
 var passport = require('passport')
@@ -22,13 +23,12 @@ var passport = require('passport')
 var MongoStore = require('connect-mongo')(express);
 
 
-
-console.log(config.mongoUrl);
-
 var app = express();
+var server = http.createServer(app);
+var io = socketio.listen(server);
 
-app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+
+app.configure(function(){  
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.favicon());
@@ -86,6 +86,17 @@ app.get('/auth/twitter/callback',
                                      failureRedirect: '/login-failed' }));
 
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port') + " - " + process.env.NODE_ENV);
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world', tim: 'was here 2' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
+
+
+
+server.listen(config.port, function(){
+  console.log("Express server listening on port " + config.port + " - " + process.env.NODE_ENV);
 });
