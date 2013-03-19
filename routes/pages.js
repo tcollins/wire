@@ -20,13 +20,25 @@ exports.login = function(req, res){
 exports.loginSuccess = function(req, res){
 	console.log('loginSuccess');
 	console.log(req.user);
-	return res.redirect('/');
+
+	var user = req.user;
+	if(user.email && user.email.length > 2){
+		return res.redirect('/wire');
+	}else{
+		return res.redirect('/first-time-setup');
+	}
 };
 
 exports.loginFailed = function(req, res){
 	console.log('loginFailed');
 	console.log(req.user);
 	return res.redirect('/');
+};
+
+exports.firstTimeSetup = function(req, res){
+	
+	console.log('pages.firstTimeSetup');
+	res.render('first-time-setup', { title: config.title });
 };
 
 

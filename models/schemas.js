@@ -1,7 +1,8 @@
 
 var mongoose = require('mongoose');
+var config = require('../config');
 
-mongoose.connect('localhost', 'wire');
+mongoose.connect(config.mongoUrl);
 
 var SchemaTypes = mongoose.Schema.Types;
 

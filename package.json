@@ -10,10 +10,12 @@
   "scripts": {
     "start": "node app"
   },
-  "dependencies": {    
+  "dependencies": {      
+    "connect-mongo": "0.3.2",
     "ejs": "*",
     "express": "3.1.0",
     "moment": "2.0.0",
+    "mongodb": "1.2.13",
     "mongoose": "3.5.7",
     "passport": "0.1.15",
     "passport-twitter": "0.1.4"

@@ -19,6 +19,12 @@ var express = require('express')
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy;
 
+var MongoStore = require('connect-mongo')(express);
+
+
+
+console.log(config.mongoUrl);
+
 var app = express();
 
 app.configure(function(){
@@ -28,7 +34,8 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.cookieParser());
-  app.use(express.cookieSession({ secret: 'blackbeermmm!', cookie: { maxAge: 60 * 60 * 1000 }}));
+  //app.use(express.cookieSession({ secret: 'blackbeermmm!', cookie: { maxAge: 60 * 60 * 1000 }}));
+  app.use(express.session({secret: 'blackbeermmm!', store: new MongoStore(config.mongoStoreConfig)}));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   //app.use(express.session({ secret: 'blackbeermmm' }));
@@ -56,6 +63,7 @@ app.get('/login', pages.login);
 app.get('/login-success', pages.loginSuccess);
 app.get('/login-failed', pages.loginFailed);
 app.get('/login', pages.login);
+app.get('/first-time-setup', pages.firstTimeSetup);
 app.get('/wire', pages.wire);
 
 app.get('/api', api.index);

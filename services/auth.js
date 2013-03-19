@@ -132,7 +132,7 @@ exports.initialize = function(){
 
   passport.serializeUser(function(user, done) {    
     //console.log('passport.serializeUser');    
-    done(null, user.id);
+    done(null, user);
   });
 
   passport.deserializeUser(function(obj, done) {
