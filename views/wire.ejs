@@ -28,7 +28,7 @@
                         <li class="divider">
                         </li>                        
                         <li>
-                            <a href="help.htm"><b class="icon-plus"></b> New Wire</a>
+                            <a href="#new-wire"><b class="icon-plus"></b> New Wire</a>
                         </li>                        
                     </ul>
                 </li>
@@ -129,9 +129,49 @@
     </div><!--/.fluid-container-->
 
 
+
+
+
+
+
+
+     
+    <!-- Add New Wire Modal -->
+    <div id="newWireModal" class="modal hide fade" tabindex="-1" role="dialog" >
+      <div class="modal-header">
+        <button type="button" class="close" title="close" data-dismiss="modal">×</button>
+        <h3 id="myModalLabel">Create New Wire</h3>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="control-group" data-bind="css:{error: newWireNameInvalid}">
+            <div class="alert alert-error" data-bind="visible: newWireNameInvalid">              
+              <strong>Oops!</strong> You forgot to name your wire.
+            </div>
+            <label class="control-label" for="newWireModalInputName">Give your Wire a name</label>
+            <div class="controls">
+              <input type="text" id="newWireModalInputName" class="input-xlarge" placeholder="Awesome Project" data-bind="value:newWireName">
+            </div>
+          </div>
+        </form> 
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" data-bind="click:saveNewWire">Create Wire</button>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
     <% include _js %>
-    <script>
-        WIRE.setup();
+    <script>       
+        WIRE.VM.init();
 
         var socket = io.connect('http://127.0.0.1:3000');
         socket.on('news', function (data) {
